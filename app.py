@@ -46,7 +46,7 @@ fig_choropleth = px.choropleth(
     locationmode='country names',  # Use the 'country' column directly
     color="avgtemp_c",  # You can choose maxtemp_c, mintemp_c, or avgtemp_c
     hover_name="country",
-    projection='natural earth',
+    projection='mercator',
     animation_frame="date",
     title="Temperature Variation Over Time",
     color_continuous_scale=px.colors.sequential.YlOrRd,
@@ -73,7 +73,7 @@ fig_scatter_map = px.scatter_geo(
     color='avgtemp_c',  # Color based on average temperature
     color_continuous_scale=px.colors.sequential.YlOrRd,  # Choose your color scale
     title='Weather Stations / Cities with Average Temperature',
-    projection='orthographic',  # You can change the projection as needed
+    projection='mercator',  # You can change the projection as needed
 )
 
 fig_scatter_map.update_geos(showcoastlines=True, coastlinecolor="Black", showland=True, landcolor="white")
