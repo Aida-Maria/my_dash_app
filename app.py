@@ -3,12 +3,9 @@
 
 import plotly.express as px
 import pandas as pd
-import seaborn as sn
-import matplotlib as plt
+
+
 import plotly.graph_objects as go
-
-
-
 
 import dash
 
@@ -16,7 +13,7 @@ from dash import Dash, html, dcc
 import dash_table
 from dash.dependencies import Input, Output
 
-import plotly.express as px
+
 
 
 import dash_bootstrap_components as dbc 
@@ -25,10 +22,6 @@ import dash_bootstrap_components as dbc
 # Importing DF
 
 df = pd.read_csv('weather_df.csv')
-
-
-
-
 
 
 
@@ -62,7 +55,7 @@ fig_choropleth = px.choropleth(
 
 fig_choropleth.update_geos(showcoastlines=True, coastlinecolor="Black", showland=True, landcolor="white")
 
-fig_choropleth.show()
+
 
 
 
@@ -85,7 +78,7 @@ fig_scatter_map = px.scatter_geo(
 
 fig_scatter_map.update_geos(showcoastlines=True, coastlinecolor="Black", showland=True, landcolor="white")
 
-fig_scatter_map.show()
+
 
 
 #Create warming stripes for one station over time to inspect warming over time.**
@@ -121,7 +114,7 @@ fig_warming_stripes.update_layout(
 fig_warming_stripes.update_xaxes(
     showline=True, showgrid=False
 )
-fig_warming_stripes.show()
+
 
 
 
@@ -143,7 +136,7 @@ df_germany
 fig_avg_temp = px.line(df_germany, x='date', y='avgtemp_c', title='Average daily temperature over time')
 fig_avg_temp.update_xaxes(title='Date')
 fig_avg_temp.update_yaxes(title='Average daily temperature (°C)')
-fig_avg_temp.show()
+
 
 
 #Distribution of maximum temperatures (histogram):**
@@ -151,7 +144,7 @@ fig_avg_temp.show()
 fig_max_temp = px.histogram(df_germany, x='maxtemp_c', nbins=15, title='Distribution of maximum temperatures')
 fig_max_temp.update_xaxes(title='Maximum temperature (°C)')
 fig_max_temp.update_yaxes(title='Quantity')
-fig_max_temp.show()
+
 
 
 #Average temperature by day of the month (boxplot):**
@@ -170,7 +163,7 @@ fig_avg_temp_month = px.box(
 )
 fig_avg_temp_month.update_xaxes(title='Month')
 fig_avg_temp_month.update_yaxes(title='Average Temperature (°C)')
-fig_avg_temp_month.show()
+
 
 graph3 = dcc.Graph(figure=fig_avg_temp_month)
 
@@ -188,7 +181,7 @@ fig_max_temp_monthly = px.bar(
     labels={'maxtemp_c': 'Max Temperature (°C)'},
 )
 
-fig_max_temp_monthly.show()
+
 
 
 
@@ -209,7 +202,7 @@ fig_corr_heatmap = px.imshow(
     color_continuous_scale='RdYlGn'  # Change to a different color scale (Red-Yellow-Green)
 )
 
-fig_corr_heatmap.show()
+
 
 
 
@@ -240,7 +233,7 @@ selected_country = ['Germany']
 # Filter the DataFrame for the selected country
 df_germany = df[df['country'].isin(selected_country)]
 
-
+##########    Create a dash app ##########
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.MINTY])
 
@@ -269,4 +262,4 @@ app.layout = html.Div([html.H1('Temperature Analysis Dashboard', style={'textAli
 ])
 
 if __name__ == '__main__':
-     app.run_server(debug=True, port=8052)
+     app.run_server(debug=True, port=8053)

@@ -3,3 +3,6 @@ gunicorn
 pandas
 plotly==5.15.0
 dash_bootstrap_components
+seaborn
+plotly.graph_objects
+plotly.express
