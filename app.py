@@ -236,6 +236,7 @@ df_germany = df[df['country'].isin(selected_country)]
 ##########    Create a dash app ##########
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.MINTY])
+server = app.server
 
 # Sample DataTable
 d_table = dash_table.DataTable(df_germany.to_dict('records'),
