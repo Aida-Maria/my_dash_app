@@ -1,18 +1,17 @@
-import pandas as pd
-from sqlalchemy import create_engine
+
+
 
 import plotly.express as px
 import pandas as pd
 import seaborn as sn
 import matplotlib as plt
 import plotly.graph_objects as go
-from sqlalchemy import create_engine, types
-from sqlalchemy import text
+
 
 
 
 import dash
-from dash import html, dcc
+
 from dash import Dash, html, dcc
 import dash_table
 from dash.dependencies import Input, Output
@@ -23,54 +22,14 @@ import plotly.express as px
 import dash_bootstrap_components as dbc 
 
 
-# Database connection parameters
-db_username = 'postgres'
-db_password = 'Password123'
-db_host = '34.141.44.87'
-db_port = '5432'
-db_name = 'climate'
+# Importing DF
 
-
-# Create the database URL
-db_url = f'postgresql://{db_username}:{db_password}@{db_host}:{db_port}/{db_name}'
-
-
-
-# SQL query to select data from the 'prep_temp' table
-sql_query = 'SELECT * FROM prep_temp'
-
-
-
-# Create a database engine and connect to the database
-engine = create_engine(db_url)
-
-# Execute the SQL query and create a DataFrame
-df = pd.read_sql_query(sql_query, con=engine)
-
-# Display the first few rows of the DataFrame
-df.head()
-
-
-
-# Remove the quotes around city names
-df['city'] = df['city'].str.strip('"')
-df['region'] = df['region'].str.strip('"')
-df['country'] = df['country'].str.strip('"')
-
-
-# add new column Month
-
-# Convert the 'date' column to datetime type
-df['date'] = pd.to_datetime(df['date'])
-
-# Create a new column "Month" from the date
-df['Month'] = df['date'].dt.strftime('%B')
+df = pd.read_csv('weather_df.csv')
 
 
 
 
 
-**Create animated choropleth map of the temperature of selected countries over time.**
 
 
 
@@ -110,7 +69,7 @@ fig_choropleth.show()
 
 graph1 = dcc.Graph(figure=fig_choropleth)
 
-**Create scattermap of all the locations in the data.**
+#Create scattermap of all the locations in the data.**
 
 # Create a scatter map of all locations with color based on average temperature
 fig_scatter_map = px.scatter_geo(
@@ -129,7 +88,7 @@ fig_scatter_map.update_geos(showcoastlines=True, coastlinecolor="Black", showlan
 fig_scatter_map.show()
 
 
-**Create warming stripes for one station over time to inspect warming over time.**
+#Create warming stripes for one station over time to inspect warming over time.**
 
 
 # specific city
@@ -176,7 +135,7 @@ df_germany = df[df['country'].isin(selected_country)]
 
 df_germany
 
-**Average daily temperature over time**
+#Average daily temperature over time**
 
 
 
@@ -187,7 +146,7 @@ fig_avg_temp.update_yaxes(title='Average daily temperature (°C)')
 fig_avg_temp.show()
 
 
-**Distribution of maximum temperatures (histogram):**
+#Distribution of maximum temperatures (histogram):**
 
 fig_max_temp = px.histogram(df_germany, x='maxtemp_c', nbins=15, title='Distribution of maximum temperatures')
 fig_max_temp.update_xaxes(title='Maximum temperature (°C)')
@@ -195,7 +154,7 @@ fig_max_temp.update_yaxes(title='Quantity')
 fig_max_temp.show()
 
 
-**Average temperature by day of the month (boxplot):**
+#Average temperature by day of the month (boxplot):**
 
 # Define the correct order of months
 correct_month_order = [
@@ -234,7 +193,7 @@ fig_max_temp_monthly.show()
 
 
 
-**Correlation Heatmap:**
+#Correlation Heatmap:**
 
 import plotly.express as px
 
@@ -281,35 +240,6 @@ selected_country = ['Germany']
 # Filter the DataFrame for the selected country
 df_germany = df[df['country'].isin(selected_country)]
 
-
-app = dash.Dash(__name__, external_stylesheets=[dbc.themes.DARKLY])
-
-# Sample DataTable
-d_table = dash_table.DataTable(df_germany.to_dict('records'),
-                                  [{"name": i, "id": i} for i in df_germany.columns],
-                               style_data={'color': 'white','backgroundColor': 'black'},
-                              style_header={
-                                  'backgroundColor': 'rgb(210, 180, 210)',
-                                  'color': 'black','fontWeight': 'bold'
-    })
-
-
-
-
-
-
-
-app.layout = html.Div([html.H1('Temperature Analysis Dashboard', style={'textAlign': 'center', 'color': 'coral'}), 
-                       html.H2('Welcome', style ={'paddingLeft': '30px'}),
-                       html.H3('These are the Graphs'),
-                       html.Div([html.Div('Germany', 
-                                          style={'backgroundColor': 'coral', 'color': 'white', 'width': "Germany"}),d_table, graph1, graph2, graph3])
-
-                    
-])
-
-if __name__ == '__main__':
-     app.run_server(debug=True, port=8052)
 
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.MINTY])
